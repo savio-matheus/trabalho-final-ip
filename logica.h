@@ -2,10 +2,6 @@
 #define LOGICA_H
 #include "logica.c"
 
-/*
-*	Funções para entrada e saída de informações
-*/
-
 // Retorna a quantidade de structs "dados" em um arquivo.
 long int blocos_struct( FILE *fp );
 
