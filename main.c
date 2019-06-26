@@ -12,7 +12,7 @@ void modConsulta();
 void modAltera();
 void modListagem();
 
-int rotina_abertura(char *CABECALHO);
+int rotina_abertura(short int cab);
 void rotina_ordenacao(short int op);
 
 FILE *fp = NULL;
@@ -21,13 +21,12 @@ FILE *fp = NULL;
 
 int main()
 {
-	int op, retorno;
+	int op;
 
-	limpa_tela();
+	cria_tela(0, 1);
 
 	while(1)
 	{
-		printf("======= Menu principal\n");
 		printf("\t1 - Cadastrar nova turma\n");
 		printf("\t2 - Consultar um aluno\n");
 		printf("\t3 - Alterar dados de um aluno\n");
@@ -41,37 +40,36 @@ int main()
 		{
 			case 1:
 				modCadastro();
-				limpa_tela();
-				printf("<- Cadastro encerrado\n");
+				cria_tela(1, 1);
 				break;
 
 			case 2:
 				modConsulta();
-				limpa_tela();
-				printf("<- Consulta encerrada\n");
+				cria_tela(2, 1);
 				break;
 
 			case 3:
 				modAltera();
-				limpa_tela();
-				printf("<- Alteracao encerrada\n");
+				cria_tela(3, 1);
 				break;
 
 			case 4:
 				modListagem();
-				limpa_tela();
-				printf("<- Listagem encerrada\n");
+				cria_tela(4, 1);
 				break;
 
 			case 5:
-				fecha_arq(fp);
-				limpa_tela();
+				if(fp != NULL)
+				{
+					fecha_arq(fp);
+				}
+
+				cria_tela(0, 0);
 				printf("Tchau\n");
 				return 0;
 
 			default:
-				limpa_tela();
-				printf("<- Opcao invalida!\n");
+				cria_tela(5, 1);
 		}
 	}
 }
@@ -85,18 +83,19 @@ void modCadastro()
 	short int erro = 0;
 	short int op;
 
-	fecha_arq(fp);
+	if(fp != NULL)
+	{
+		fecha_arq(fp);
+	}
 
 	do
 	{
-		limpa_tela();
+		cria_tela(0, 2);
 		if(erro)
 		{
-			printf("<- Algo deu errado, tente novamente\n");
+			cria_tela(6, 2);
 			erro = 0;
 		}
-
-		printf("======= Modulo de Cadastro\n");
 
 		mostra_dir();
 		printf("Salvar em: ");
@@ -120,7 +119,7 @@ void modCadastro()
 			printf("1 - Criar novo arquivo\n");
 			printf("2 - Adicionar a arquivo existente\n");
 			printf("Escolha uma opcao: ");
-			scanf(" %d", &op);
+			scanf(" %hi", &op);
 
 			if(op == 1)
 			{
@@ -132,9 +131,7 @@ void modCadastro()
 			}
 			else
 			{
-				limpa_tela();
-				printf("<- Opcao invalida\n");
-				printf("======= Modulo de Cadastro\n");
+				cria_tela(5, 2);
 			}
 		}while( op != 1 && op != 2 );
 
@@ -144,8 +141,7 @@ void modCadastro()
 		}
 	}while(erro);
 
-	limpa_tela();
-	printf("======= Modulo de Cadastro\n");
+	cria_tela(0, 2);
 	printf("Insira os dados\n");
 
 	while(entra_dados(0, 0, fp) == 0);
@@ -159,18 +155,18 @@ void modConsulta()
 	unsigned int matricula;
 	struct dados temp;
 
-	if(rotina_abertura("======= Modulo de Consulta")) return;
+	if(rotina_abertura(3))
+	{
+		return;
+	}
 
-	limpa_tela();
-	printf("======= Modulo de Consulta\n");
+	cria_tela(0, 3);
 
 	while(1)
 	{
 		if(posic == -1)
 		{
-			limpa_tela();
-			printf("<- Nenhuma matricula encontrada\n");
-			printf("======= Modulo de Consulta\n");
+			cria_tela(7, 3);
 		}
 
 		printf("Numero de matricula: ");
@@ -181,8 +177,7 @@ void modConsulta()
 			return;
 		}
 
-		limpa_tela();
-		printf("======= Modulo de Consulta\n");
+		cria_tela(0, 3);
 
 		posic = busca(matricula, fp, &temp);
 
@@ -202,26 +197,24 @@ void modAltera()
 	unsigned int matricula;
 	struct dados temp;
 
-	if(rotina_abertura("======= Modulo de Alteracao")) return;
+	if(rotina_abertura(4))
+	{
+		return;
+	}
 
 	do
 	{
 		if(posic == -1)
 		{
-			limpa_tela();
-			printf("<- Nenhuma matricula encontrada\n");
-			printf("======= Modulo de Alteracao\n");
+			cria_tela(7, 4);
 		}
 		else if(catch == 0)
 		{
-			limpa_tela();
-			printf("======= Modulo de Alteracao\n");
+			cria_tela(0, 4);
 		}
 		else
 		{
-			limpa_tela();
-			printf("<- Atualizacao cancelada\n");
-			printf("======= Modulo de Alteracao\n");
+			cria_tela(8, 4);
 		}
 
 		printf("\nNumero de matricula: ");
@@ -232,8 +225,7 @@ void modAltera()
 			return;
 		}
 
-		limpa_tela();
-		printf("======= Modulo de Alteracao\n");
+		cria_tela(0, 4);
 
 		posic = busca(matricula, fp, &temp);
 
@@ -258,13 +250,15 @@ void modListagem()
 {
 	short int op;
 
-	if(rotina_abertura("======= Modulo de Listagem")) return;
+	if(rotina_abertura(5))
+	{
+		return;
+	}
 
-	limpa_tela();
+	cria_tela(0, 5);
 
 	while(1)
 	{
-		printf("======= Modulo de Listagem\n");
 		printf("\t1 - listar os alunos por ordem crescente de matricula\n");
 		printf("\t2 - listar os alunos por ordem alfabetica de nome\n");
 		printf("\t3 - listar os alunos por ordem crescente de nota final\n");
@@ -272,45 +266,43 @@ void modListagem()
 		printf("\t5 - terminar execucao do modulo\n");
 		printf("Escolha uma opcao: ");
 
-		scanf(" %d", &op);
+		scanf(" %hi", &op);
 
 		printf("\n");
 
 		switch (op)
 		{
 			case 1:
-				limpa_tela();
-				printf("======= Modulo de Listagem\n");
+				cria_tela(0, 5);
 				rotina_ordenacao(op);
 				break;
 
 			case 2:
-				limpa_tela();
-				printf("======= Modulo de Listagem\n");
+				cria_tela(0, 5);
 				rotina_ordenacao(op);
 				break;
 
 			case 3:
-				limpa_tela();
-				printf("======= Modulo de Listagem\n");
+				cria_tela(0, 5);
 				rotina_ordenacao(op);
 				break;
 
 			case 4:
-				if(rotina_abertura("======= Modulo de Listagem"))
+				if(rotina_abertura(5))
 				{
 					return;
 				}
-
-				limpa_tela();
+				else
+				{
+					cria_tela(0, 5);
+				}
 				break;
 
 			case 5:
 				return;
 
 			default:
-				limpa_tela();
-				printf("<- Opcao Invalida\n");
+				cria_tela(5, 5);
 
 		}
 	}
@@ -318,7 +310,7 @@ void modListagem()
 
 // *************************************************************************
 
-int rotina_abertura(char *CABECALHO)
+int rotina_abertura(short int cab)
 {
 	char nome_arq[100];
 	char diretorio[300];
@@ -327,7 +319,7 @@ int rotina_abertura(char *CABECALHO)
 
 	if(fp)
 	{
-		limpa_tela();
+		cria_tela(0, 0);
 		printf("Continuar no arquivo atual [s/n]? ");
 		scanf(" %c", &op);
 
@@ -339,15 +331,13 @@ int rotina_abertura(char *CABECALHO)
 
 	while(op == 'N' || op == 'n')
 	{
-		limpa_tela();
-
 		if(erro)
 		{
-			printf("<- Algo deu errado, tente novamente\n");
+			cria_tela(6, 0);
 			erro = 0;
 		}
 
-		printf("%s\n", CABECALHO);
+		cria_tela(0, cab);
 
 		mostra_dir();
 		printf("Abrir de: ");
@@ -385,13 +375,12 @@ int rotina_abertura(char *CABECALHO)
 void rotina_ordenacao(short int op)
 {
 	long int blocos;
-	char catch;
 	struct dados *temp = NULL;
 
 	blocos = blocos_struct(fp);
 				
 	temp = (struct dados*) malloc(
-		sizeof (struct dados) * blocos);
+		sizeof (struct dados) * blocos + 1);
 	rewind(fp);
 	fread(temp, sizeof(struct dados), blocos, fp);
 

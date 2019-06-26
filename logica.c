@@ -218,7 +218,7 @@ int entra_dados( long int posic, short int alterando, FILE *fp )
 	temp.matricula = tempMatric;
 
 	printf("Nome: ");
-	scanf(" %100[^\n]", &temp.nome);
+	scanf(" %100[^\n]", temp.nome);
 	temp.nome[0] = toupper(temp.nome[0]);
 
 	printf("Notas de prova: ");
@@ -313,9 +313,41 @@ FILE *abre_arq( char *nome_arq )
 	return fp;
 }
 
-void limpa_tela()
+void cria_tela( short int msg, short int cab )
 {
 	LIMPA_TELA;
+
+	char *mensagens[] = {
+		"\0",
+		"<- Cadastro encerrado\n",
+		"<- Consulta encerrada\n",
+		"<- Alteracao encerrada\n",
+		"<- Listagem encerrada\n",
+		"<- Opcao invalida!\n",
+		"<- Algo deu errado, tente novamente\n",
+		"<- Nenhuma matricula encontrada\n",
+		"<- Atualizacao cancelada\n",
+		"Tchau\n"
+	};
+
+	char *cabecalhos[] = {
+		"\0",
+		"======= Menu principal\n",
+		"======= Modulo de Cadastro\n",
+		"======= Modulo de Consulta\n",
+		"======= Modulo de Alteracao\n",
+		"======= Modulo de Listagem\n"
+	};
+
+	if(msg)
+	{
+		printf("%s", mensagens[msg]);
+	}
+
+	if(cab)
+	{
+		printf("%s", cabecalhos[cab]);
+	}
 }
 
 void mostra_dir()

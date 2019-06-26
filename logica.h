@@ -2,6 +2,10 @@
 #define LOGICA_H
 #include "logica.c"
 
+/*
+*	Funções para entrada e saída de informações
+*/
+
 // Retorna a quantidade de structs "dados" em um arquivo.
 long int blocos_struct( FILE *fp );
 
@@ -26,7 +30,9 @@ void fecha_arq( FILE *fp );
 FILE *cria_arq( char *nome_arq );
 FILE *abre_arq( char *nome_arq );
 
-void limpa_tela();
+// Limpa a tela e exibe duas mensagens (se requisitado).
+void cria_tela( short int msg, short int cab );
+
 void mostra_dir();
 
 #endif
