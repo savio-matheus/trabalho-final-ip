@@ -65,7 +65,7 @@ void imprime_dados( struct dados *p )
 	printf("===============\n\n");
 }
 
-void sort_nota( struct dados *p, FILE *fp, long int n )
+void sort_nota( struct dados *p, long int n )
 {
 	long int i, j, min;
 	struct dados temp_lf;
@@ -86,7 +86,7 @@ void sort_nota( struct dados *p, FILE *fp, long int n )
 	}
 }
 
-void sort_nome( struct dados *p, FILE *fp, long int n )
+void sort_nome( struct dados *p, long int n )
 {
 	long int i, j, min;
 	struct dados temp_c;
@@ -107,7 +107,7 @@ void sort_nome( struct dados *p, FILE *fp, long int n )
 	}
 }
 
-void sort_matricula( struct dados *p, FILE *fp, long int n )
+void sort_matricula( struct dados *p, long int n )
 {
 	long int i, j, min;
 	struct dados temp_u;
@@ -276,12 +276,6 @@ int entra_dados( long int posic, short int alterando, FILE *fp )
 	fwrite(&temp, sizeof (struct dados), 1, fp);
 
 	return 0;
-}
-
-void fecha_arq( FILE *fp )
-{
-	fclose(fp);
-	fp = NULL;
 }
 
 FILE *cria_arq( char *nome_arq )

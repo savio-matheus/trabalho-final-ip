@@ -13,9 +13,9 @@ void imprime_dados( struct dados *p );
 
 // Ordena as structs salvas em um vetor de acordo
 // com certo critério.
-void sort_nota( struct dados *p, FILE *fp, long int n );
-void sort_nome( struct dados *p, FILE *fp, long int n );
-void sort_matricula( struct dados *p, FILE *fp, long int n );
+void sort_nota( struct dados *p, long int n );
+void sort_nome( struct dados *p, long int n );
+void sort_matricula( struct dados *p, long int n );
 
 // Retorna -1 se não encontrar a matrícula indicada ou
 // retorna a posição no arquivo se a encontrar e salva seus
@@ -26,7 +26,6 @@ int busca( unsigned int matric, FILE *fp, struct dados *temp );
 // e 0 se for concluída.
 int entra_dados( long int posic, short int alterando, FILE *fp );
 
-void fecha_arq( FILE *fp );
 FILE *cria_arq( char *nome_arq );
 FILE *abre_arq( char *nome_arq );
 

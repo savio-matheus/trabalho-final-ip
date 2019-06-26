@@ -59,13 +59,14 @@ int main()
 				break;
 
 			case 5:
-				if(fp != NULL)
-				{
-					fecha_arq(fp);
-				}
-
 				cria_tela(0, 0);
 				printf("Tchau\n");
+				
+				if(fp != NULL)
+				{
+					fclose(fp);
+					fp = NULL;
+				}
 				return 0;
 
 			default:
@@ -85,7 +86,8 @@ void modCadastro()
 
 	if(fp != NULL)
 	{
-		fecha_arq(fp);
+		fclose(fp);
+		fp = NULL;
 	}
 
 	do
@@ -249,11 +251,20 @@ void modAltera()
 void modListagem()
 {
 	short int op;
+	long int blocos;
+	struct dados *temp = NULL;
 
 	if(rotina_abertura(5))
 	{
 		return;
 	}
+
+	blocos = blocos_struct(fp);
+				
+	temp = (struct dados*) malloc(
+		sizeof (struct dados) * blocos + 1);
+	rewind(fp);
+	fread(temp, sizeof(struct dados), blocos, fp);
 
 	cria_tela(0, 5);
 
@@ -274,17 +285,41 @@ void modListagem()
 		{
 			case 1:
 				cria_tela(0, 5);
-				rotina_ordenacao(op);
+				sort_matricula(temp, blocos);
+
+				for(int i = 0; i < blocos; i++)
+				{
+					imprime_dados(&temp[i]);
+				}
+		
+				free(temp);
+
 				break;
 
 			case 2:
 				cria_tela(0, 5);
-				rotina_ordenacao(op);
+				sort_nome(temp, blocos);
+
+				for(int i = 0; i < blocos; i++)
+				{
+					imprime_dados(&temp[i]);
+				}
+		
+				free(temp);
+
 				break;
 
 			case 3:
 				cria_tela(0, 5);
-				rotina_ordenacao(op);
+				sort_nota(temp, blocos);
+
+				for(int i = 0; i < blocos; i++)
+				{
+					imprime_dados(&temp[i]);
+				}
+		
+				free(temp);
+
 				break;
 
 			case 4:
@@ -325,7 +360,8 @@ int rotina_abertura(short int cab)
 
 		if(op == 'n' || op == 'N')
 		{
-			fecha_arq(fp);
+			fclose(fp);
+			fp = NULL;
 		}
 	}
 
@@ -370,37 +406,4 @@ int rotina_abertura(short int cab)
 	}
 
 	return 0;
-}
-
-void rotina_ordenacao(short int op)
-{
-	long int blocos;
-	struct dados *temp = NULL;
-
-	blocos = blocos_struct(fp);
-				
-	temp = (struct dados*) malloc(
-		sizeof (struct dados) * blocos + 1);
-	rewind(fp);
-	fread(temp, sizeof(struct dados), blocos, fp);
-
-	if(op == 1)
-	{
-		sort_matricula(temp, fp, blocos);
-	}
-	else if(op == 2)
-	{
-		sort_nome(temp, fp, blocos);
-	}
-	else
-	{
-		sort_nota(temp, fp, blocos);
-	}
-
-	for(int i = 0; i < blocos; i++)
-	{
-		imprime_dados(&temp[i]);
-	}
-		
-	free(temp);
 }
