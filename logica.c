@@ -96,7 +96,7 @@ void sort_nome( struct dados *p, long int n )
 		min = i;
 		for(j = i + 1; j < n; j++)
 		{
-			if(p[j].nome[0] < p[min].nome[0])
+			if(strcmp(p[j].nome, p[min].nome) <= 0)
 			{
 				min = j;
 			}
