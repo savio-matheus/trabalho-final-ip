@@ -13,7 +13,6 @@ void modAltera();
 void modListagem();
 
 int rotina_abertura(short int cab);
-void rotina_ordenacao(short int op);
 
 FILE *fp = NULL;
 
