@@ -259,17 +259,20 @@ void modListagem()
 		return;
 	}
 
-	blocos = blocos_struct(fp);
-				
-	temp = (struct dados*) malloc(
-		sizeof (struct dados) * blocos + 1);
-	rewind(fp);
-	fread(temp, sizeof(struct dados), blocos, fp);
-
 	cria_tela(0, 5);
 
 	while(1)
 	{
+		if(temp == NULL)
+		{
+			blocos = blocos_struct(fp);
+				
+			temp = (struct dados*) malloc(
+				sizeof (struct dados) * blocos + 1);
+			rewind(fp);
+			fread(temp, sizeof(struct dados), blocos, fp);
+		}
+
 		printf("\t1 - listar os alunos por ordem crescente de matricula\n");
 		printf("\t2 - listar os alunos por ordem alfabetica de nome\n");
 		printf("\t3 - listar os alunos por ordem crescente de nota final\n");
@@ -291,9 +294,8 @@ void modListagem()
 				{
 					imprime_dados(&temp[i]);
 				}
-		
 				free(temp);
-
+				temp = NULL;
 				break;
 
 			case 2:
@@ -304,9 +306,8 @@ void modListagem()
 				{
 					imprime_dados(&temp[i]);
 				}
-		
 				free(temp);
-
+				temp = NULL;
 				break;
 
 			case 3:
@@ -317,23 +318,37 @@ void modListagem()
 				{
 					imprime_dados(&temp[i]);
 				}
-		
 				free(temp);
-
+				temp = NULL;
 				break;
 
 			case 4:
 				if(rotina_abertura(5))
 				{
+					if(temp != NULL)
+					{
+						free(temp);
+						temp = NULL;
+					}
 					return;
 				}
 				else
 				{
 					cria_tela(0, 5);
+					if(temp != NULL)
+					{
+						free(temp);
+						temp = NULL;
+					}
 				}
 				break;
 
 			case 5:
+				if(temp != NULL)
+				{
+					free(temp);
+					temp = NULL;
+				}
 				return;
 
 			default:
