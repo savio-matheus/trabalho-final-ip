@@ -22,9 +22,13 @@ void sort_matricula( struct dados *p, long int n );
 // dados na struct passada.
 int busca( unsigned int matric, FILE *fp, struct dados *temp );
 
-// Retorna 1 se o cadastro for cancelado com uma matrícula = 0
-// e 0 se for concluída.
-int entra_dados( long int posic, short int alterando, FILE *fp );
+// Recebe os dados e salva no arquivo na posição indicada em
+// "posic". Se posic for < 0, então salva no final do arquivo.
+// A função também verifica todas as matrículas em cada cadastro
+// para evitar repetições, mas, em caso de alteração de dados
+// existentes, ou seja, posic >= 0, permite manter a matrícula
+// que já estava cadastrada.
+int entra_dados( long int posic, FILE *fp );
 
 FILE *cria_arq( char *nome_arq );
 FILE *abre_arq( char *nome_arq );

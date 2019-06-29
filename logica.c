@@ -157,7 +157,7 @@ int busca( unsigned int matric, FILE *fp, struct dados *temp )
 	return -1;
 }
 
-int entra_dados( long int posic, short int alterando, FILE *fp )
+int entra_dados( long int posic, FILE *fp )
 {
 	struct dados temp;
 	struct dados atual;
@@ -181,7 +181,7 @@ int entra_dados( long int posic, short int alterando, FILE *fp )
 	double NF = 0;
 	float NT;
 
-	if(alterando)
+	if(posic >= 0)
 	{
 		fseek(fp, posic, SEEK_SET);
 		fread(&atual, sizeof(struct dados), 1, fp);

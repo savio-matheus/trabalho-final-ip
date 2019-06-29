@@ -145,7 +145,7 @@ void modCadastro()
 	cria_tela(0, 2);
 	printf("Insira os dados\n");
 
-	while(entra_dados(0, 0, fp) == 0);
+	while(entra_dados(-1, fp) == 0);
 }
 
 // *************************************************************************
@@ -240,7 +240,7 @@ void modAltera()
 		}
 
 		printf("Insira os dados atualizados\n");
-		catch = entra_dados(posic, 1, fp);
+		catch = entra_dados(posic, fp);
 
 	}while(1);
 }
